@@ -72,17 +72,34 @@ def inputAutomatLong():
 
     return Automat(states, transitions, initialStates, finalStates)
 
-def main():
-    automat = inputAutomatLong()
+def viewAutomat(automat):
+    print("")
+    print("")
+    print("Printing Automat")
+    print("###############")
+    print("States:")
     print automat.states
+    print("###############")
+    print("Initialstates")
     print automat.initialStates
+    print("###############")
+    print("Finalstates")
     print automat.finalStates
+    print("###############")
+    print("Transistions")
     x = automat.transitions
     for i, val in enumerate(automat.transitions):
-        #print "%d %s %d"(val.beginnState, str(val.letter), val.endState)
-        print val.beginnState
-        print val.letter
-        print val.endState
+        transList = list()
+        transList.append(val.beginnState)
+        transList.append(val.letter)
+        transList.append(val.endState)
+        print transList
+
+   
+
+def main():
+    automat = inputAutomatLong()
+    viewAutomat(automat)
 
 if __name__ == "__main__":
     main()
