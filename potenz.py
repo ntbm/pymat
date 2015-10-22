@@ -5,7 +5,8 @@ def convertListToSet(inputList):
     return outputSet
 
 class Automat:
-    def __init__(self, states, transitions, initialStates, finalStates):
+    def __init__(self, alphabet, states, transitions, initialStates, finalStates):
+        self.alphabet = alphabet
         self.states = states
         self.transitions = transitions
         self.initialStates = initialStates
@@ -70,12 +71,15 @@ def inputAutomatLong():
         else:
             print "Invalid Origin"
 
-    return Automat(states, transitions, initialStates, finalStates)
+    return Automat(alphabet, states, transitions, initialStates, finalStates)
 
 def viewAutomat(automat):
     print("")
     print("")
     print("Printing Automat")
+    print("###############")
+    print("Alphabet:")
+    print automat.alphabet
     print("###############")
     print("States:")
     print automat.states
@@ -94,15 +98,34 @@ def viewAutomat(automat):
         transList.append(val.letter)
         transList.append(val.endState)
         print transList
+def potenzConstruction(automat):
+    """ Takes an Automat an puts out an deterministic complete Automat via Potenz Construction """
+    newIntialStates = set(frozenset(automat))
+    
+def testAutomat():
+    alphabet = list()
+    alphabet.append("a")
+    alphabet.append("b")
 
-   
+    initialStates = set()
+    initialStates.add("1")
+
+    finalStates = set()
+    finalStates.add("2")
+
+    states = set()
+    states.add("1")
+    states.add("2")
+
+    transitions = list()
+    transitions.append(Transition("1","a","2"))
+    transitions.append(Transition("2","a","2"))
+
+    automat = Automat(alphabet, states, transitions, initialStates, finalStates)
+
+    return automat
 
 def main():
-    automat = inputAutomatLong()
-    viewAutomat(automat)
-
-if __name__ == "__main__":
-    main()
-
-
-
+   # automat = inputAutomatLong()
+   # viewAutomat(automat)
+   print "Testrun"
