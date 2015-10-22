@@ -3,6 +3,15 @@ def convertListToSet(inputList):
     for i, val in enumerate(inputList):
         outputSet.add(val)
     return outputSet
+def powerSet(inputset):
+	out = set()
+	out.add(frozenset())
+	if len(inputset) == 0:
+		return out
+	for e in inputset:
+		out.add(frozenset(e))
+	
+
 
 class Automat:
 	def __init__(self, alphabet, states, transitions, initialStates, finalStates):
@@ -39,7 +48,8 @@ class Automat:
 		print transList
 		
 	def potenzConstruction(self):
-	   newIntialStates = set(frozenset(self))
+	   newIntialStates = set(frozenset(self.initialStates))
+
 	 
 class Transition:
     def __init__(self, beginnState, letter, endState):
