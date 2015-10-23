@@ -6,20 +6,39 @@ def convertListToSet(inputList):
 def powerSet(inputset):
 	out = set()
 	out.add(frozenset())
-	if len(inputset) == 0:
-		return out
 	for e in inputset:
-		out.add(frozenset(e))
+		try:
+			out.add(frozenset(e))
+		except TypeError, te :
+			out.add(frozenset([e]))
+	out = out.union(powerSetHelper(out, inputset))
+	return out
+
+def powerSetHelper(mergeSet, todoSet):
+	out = set(mergeSet)
+	for e in todoSet:
+		for f in mergeSet:
+			try:
+				out.add(f.union(e))
+			except TypeError, te:
+				out.add(f.union(set([e])))
+		out = powerSetHelper(out,todoSet.difference([e]))
+	return out
+
+
 	
-
-
 class Automat:
+	alphabet = set()
+	states = set()
+	transitions = list()
+	intialStates = set()
+	finalStates = set()
 	def __init__(self, alphabet, states, transitions, initialStates, finalStates):
-        self.alphabet = alphabet
-        self.states = states
-        self.transitions = transitions
-        self.initialStates = initialStates
-        self.finalStates = finalStates
+		self.alphabet = alphabet
+		self.states = states
+		self.transitions = transitions
+		self.initialStates = initialStates
+		self.finalStates = finalStates
 
 	def viewAutomat(self):
 	    print("")
@@ -90,7 +109,7 @@ def inputAutomatLong():
             print states
             print "Finalstates" 
             print finalStates
-    transitions = []
+    transitions = list()
     print "Enter Transitions on at a time."
     print "Form: origin symbol destination"
     print "Leave empty to continue"
