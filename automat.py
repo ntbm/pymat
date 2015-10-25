@@ -67,7 +67,27 @@ class Automat:
 		print transList
 		
 	def potenzConstruction(self):
-	   newIntialStates = set(frozenset(self.initialStates))
+		newInitialStates = set(frozenset(self.initialStates))
+		newStates = powerSet(self.states)
+		newFinalStates = set()
+		for e in newStates:
+			f = e.intersection(self.finalStates)
+			if f != frozenset([]):
+				newFinalStates.add(f)
+		newTransitions = set()
+		for states in newStates:
+			for symbol in self.alphabet:
+				endState = set()
+				for substate in states:
+					for transition in self.transitions:
+						if substate == transition.beginnState:
+							if symbol == transition.letter:
+								endState.add(transition.endState)
+
+				newTransitions.add(Transition(states, symbol, frozenset(endState)))
+
+		return Automat(self.alphabet, newStates, newTransitions, newInitialStates, newFinalStates)
+
 
 	 
 class Transition:
