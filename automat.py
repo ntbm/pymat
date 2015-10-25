@@ -87,8 +87,31 @@ class Automat:
 				newTransitions.add(Transition(states, symbol, frozenset(endState)))
 
 		return Automat(self.alphabet, newStates, newTransitions, newInitialStates, newFinalStates)
-
-
+	#TODO: This Damn Function!
+	def acceptsWord(self, word):
+		""" Word as String """
+		""" Returns true if word is in Langauge of the Automat """
+		wordlist = list(word)
+		automat = self.potenzConstruction()
+		if not (convertListToSet(wordlist)).issubset(self.alphabet):
+			return False
+		if automat.finalStates == set([]):
+			return False
+		state = frozenset(automat.initialStates)
+		for symbol in wordlist:
+			#TODO: Boolean to catch inner Loop success
+			for t in automat.transitions:
+				s = str(state) + ":" + str(t.beginnState) + ":" + str(symbol) + ":" + str(t.letter)
+				print s
+				if (state == t.beginnState) & (symbol == t.letter):
+					print "Path found"
+					state = t.endState
+					continue
+			print "No path found!"
+			return False
+		if state in automat.finalStates:
+			return True
+		return False
 	 
 class Transition:
     def __init__(self, beginnState, letter, endState):
