@@ -73,7 +73,7 @@ class Automat:
 		for e in newStates:
 			f = e.intersection(self.finalStates)
 			if f != frozenset([]):
-				newFinalStates.add(f)
+				newFinalStates.add(e)
 		newTransitions = set()
 		for states in newStates:
 			for symbol in self.alphabet:
