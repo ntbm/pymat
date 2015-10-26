@@ -100,15 +100,17 @@ class Automat:
 		state = frozenset(automat.initialStates)
 		for symbol in wordlist:
 			#TODO: Boolean to catch inner Loop success
+			nopath = True
 			for t in automat.transitions:
-				s = str(state) + ":" + str(t.beginnState) + ":" + str(symbol) + ":" + str(t.letter)
-				print s
+				#s = str(state) + ":" + str(t.beginnState) + ":" + str(symbol) + ":" + str(t.letter)
+				#print s
 				if (state == t.beginnState) & (symbol == t.letter):
 					print "Path found"
 					state = t.endState
-					continue
-			print "No path found!"
-			return False
+					nopath = False
+			if nopath:
+				print "No Path found"
+				return False
 		if state in automat.finalStates:
 			return True
 		return False
