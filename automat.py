@@ -40,7 +40,7 @@ class Automat:
 		self.initialStates = initialStates
 		self.finalStates = finalStates
 
-	def viewAutomat(self):
+	def view(self):
 	    print("")
 	    print("")
 	    print("Printing Automat")
@@ -87,7 +87,6 @@ class Automat:
 				newTransitions.add(Transition(states, symbol, frozenset(endState)))
 
 		return Automat(self.alphabet, newStates, newTransitions, newInitialStates, newFinalStates)
-	#TODO: This Damn Function!
 	def acceptsWord(self, word):
 		""" Word as String """
 		""" Returns true if word is in Langauge of the Automat """
@@ -99,11 +98,8 @@ class Automat:
 			return False
 		state = frozenset(automat.initialStates)
 		for symbol in wordlist:
-			#TODO: Boolean to catch inner Loop success
 			nopath = True
 			for t in automat.transitions:
-				#s = str(state) + ":" + str(t.beginnState) + ":" + str(symbol) + ":" + str(t.letter)
-				#print s
 				if (state == t.beginnState) & (symbol == t.letter):
 					print "Path found"
 					state = t.endState
@@ -175,4 +171,6 @@ def inputAutomatLong():
             print "Invalid Origin"
 
     return Automat(alphabet, states, transitions, initialStates, finalStates)
+
+def inpuAutomatFile(filename):
 
