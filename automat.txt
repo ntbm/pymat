@@ -1,0 +1,15 @@
+#Alphabet
+a b
+#States
+1 2 3
+#Initilstates
+1
+#Finalstates
+3
+#Transitions
+1 a 1
+1 b 1
+1 a 2
+2 a 3
+3 a 3
+3 b 3
