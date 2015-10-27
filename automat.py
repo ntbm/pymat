@@ -41,31 +41,43 @@ class Automat:
 		self.finalStates = finalStates
 
 	def view(self):
-	    print("")
-	    print("")
-	    print("Printing Automat")
-	    print("###############")
-	    print("Alphabet:")
-	    print self.alphabet
-	    print("###############")
-	    print("States:")
-	    print self.states
-	    print("###############")
-	    print("Initialstates")
-	    print self.initialStates
-	    print("###############")
-	    print("Finalstates")
-	    print self.finalStates
-	    print("###############")
-	    print("Transistions")
-	    x = self.transitions
-	    for i, val in enumerate(self.transitions):
-		transList = list()
-		transList.append(val.beginnState)
-		transList.append(val.letter)
-		transList.append(val.endState)
-		print transList
-		
+		print("")
+		print("")
+		print("Printing Automat")
+		print("###############")
+		print("Alphabet:")
+		print self.alphabet
+		print("###############")
+		print("States:")
+		print self.states
+		print("###############")
+		print("Initialstates")
+		print self.initialStates
+		print("###############")
+		print("Finalstates")
+		print self.finalStates
+		print("###############")
+		print("Transistions")
+		x = self.transitions
+		for i, val in enumerate(self.transitions):
+			transList = list()
+			transList.append(val.beginnState)
+			transList.append(val.letter)
+			transList.append(val.endState)
+			print transList
+
+	def validate(self):
+		if not self.initialStates.issubset(self.states):
+			return False
+		if not self.finalStates.issubset(self.states):
+			return False
+		for t in self.transitions:
+			if  (not t.beginnState in self.states) | (not t.endState in self.states) | (not t.letter in self.alphabet):
+				return False
+		return True
+
+
+
 	def potenzConstruction(self):
 		newInitialStates = set(frozenset(self.initialStates))
 		newStates = powerSet(self.states)
@@ -101,7 +113,6 @@ class Automat:
 			nopath = True
 			for t in automat.transitions:
 				if (state == t.beginnState) & (symbol == t.letter):
-					print "Path found"
 					state = t.endState
 					nopath = False
 			if nopath:
@@ -172,5 +183,31 @@ def inputAutomatLong():
 
     return Automat(alphabet, states, transitions, initialStates, finalStates)
 
-def inpuAutomatFile(filename):
+def inputAutomatFile(filename):
+	f = open(filename, 'r')
+	state = 0 
+	#States are 0:alphabet, 1:states, 2:beginnStates, 3:finalStates, 4:transitions
+	transitions = list()
+	for line in f:
+		if line[0] == '#':
+			continue
+		if state == 0:
+			alphabet = convertListToSet((line.rstrip()).split())
+			state = 1
+		elif state == 1:
+			states = convertListToSet((line.rstrip()).split())
+			state = 2
+		elif state == 2:
+			beginnStates = convertListToSet((line.rstrip()).split())
+			state = 3
+		elif state == 3:
+			finalStates = convertListToSet((line.rstrip()).split())
+			state = 4
+		elif state == 4:
+			t = (line.rstrip()).split()
+			transitions.append(Transition(t[0],t[1],t[2]))
+	automat = Automat(alphabet,states, transitions, beginnStates, finalStates )
+	if not automat.validate():
+		print "Not an valid Automat"
+	return automat
 
